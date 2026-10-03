@@ -21,10 +21,16 @@ new creatures, items or effects.
 - **Pups grow up** 50 minutes after taming (bred pups: after birth). **A named pup stays a baby forever**: clear its
   name and it grows up.
 - **Wild pups can be tamed** too: bring one home with the Abyssal Harpoon.
-- **Tamed seals never fight:** they run from danger like hens, then come back.
+- **Tamed seals never fight:** when something hurts them they run off for a while, then come back.
 - **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 
 ## Screenshots
+
+![A wild seal being tamed: "Seal (Tameness 1%, Acclimatizing)" with a golden taming heart](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/taming-seal.jpg)
+*Taming a wild seal: drop raw fish, keep your distance, and its tameness rises.*
+
+![A wild baby seal being tamed: "Baby Seal (Tameness 1%, Acclimatizing)"](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/taming-pup.jpg)
+*Wild pups can be tamed too.*
 
 ![Two tamed seals at home, with green health bars](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/tamed-seals.jpg)
 *Tamed seals at home.*
@@ -56,8 +62,8 @@ all effects; they just can't command or tame them. Best: everyone in your group 
 ## Compatibility
 
 - Built and tested for Valheim 1.0 (Deep North). Tested on Linux; there's no OS-specific code.
-- Other mods that change seals (TameableSeals, "tame everything" mods): SealsAtHome leaves the seals alone and says why
-  in `BepInEx/LogOutput.log`. Remove one of them.
+- If another mod has already changed the seals when a world loads (TameableSeals, "tame everything" mods), SealsAtHome
+  leaves them alone and says why in `BepInEx/LogOutput.log`. Remove one of the two.
 - No game code is patched and there's no config file: only the two seal creatures change.
 - Every language the game has: all texts are the game's own.
 

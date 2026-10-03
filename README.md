@@ -52,3 +52,16 @@ The Makefile looks for the SDK in `~/.dotnet`; pass `DOTNET=dotnet` if it's on y
 
 ## Layout
 
+```
+SealsAtHome.csproj         net48 plugin; Package target (zip + generated manifest)
+src/                       plugin: scene hook, prefab rebuild, settings tables, rules, SealCare component
+package/                   Thunderstore README and icon (icon.svg is its source)
+images/                    screenshots for the READMEs (not in the zip)
+tests/                     unit tests (net8.0)
+thunderstore.toml          Thunderstore publishing settings (tcli)
+.github/                   workflows, Dependabot, the CI helper that fetches the game DLLs
+```
+
+## License
+
+[MIT](LICENSE)
