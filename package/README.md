@@ -57,6 +57,10 @@ new creatures, items or effects.
 
 ## Multiplayer
 
+SealsAtHome makes changes to the game's own seals, instead of adding a separate mod-only seal that only players with
+the mod could see. That's why friends without the mod still see your pets and why uninstalling keeps them. The flip
+side: whatever the mod doesn't change stays vanilla for those players, like their weapons hurting tamed adult seals.
+
 SealsAtHome only runs in players' games: dedicated servers don't need it and don't run it. Valheim lets one player's
 game run each creature at a time. When you're near seals, your game takes them over from friends without the mod (it
 can take up to half a minute after you arrive), so everything works: taming, feeding, follow / stay, names, breeding,

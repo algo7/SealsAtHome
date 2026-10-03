@@ -31,6 +31,23 @@ expects a `Humanoid` body: it reads `Humanoid` fields when it picks targets and 
 A second AI next to the `AnimalAI` doesn't work either: every `BaseAI` registers the same RPCs on the creature's
 `ZNetView` (a dictionary add), and Unity runs `Awake` even on disabled components, so a second AI throws on every spawn.
 
+### Why the vanilla seals, not a copy
+
+Mods that add a tameable creature usually clone a vanilla prefab into a new one and leave the original alone.
+SealsAtHome deliberately changes the vanilla `Seal` and `Seal_Pup` in place instead:
+
+- **Players without the mod still see the seals.** A clone doesn't exist in their game: `ZNetScene.CreateObject` logs
+  "Missing prefab hash" and creates nothing, so the creature is invisible to them. Worse, ownership is handed out
+  whether or not a game can show the creature: if such a player owns it, nobody runs it and it freezes.
+- **Uninstalling keeps your seals.** A clone's saved creatures can't be created without the mod; vanilla seals load as
+  vanilla seals and keep their tamed flag and name.
+- **One kind of seal.** The spawner, breeding and the seals already in a world all use the same prefabs.
+
+The cost: whatever the mod doesn't change comes from the vanilla seal for players without it. Their game runs a vanilla
+seal when it owns one (hence the takeover below), and the vanilla adult seal is provokable, so their weapons can hurt
+tamed adults (see "The provokable flag"). And every seal is rebuilt, wild ones too, so the wild AI has to act like the
+vanilla seal.
+
 ### The swap
 
 On each world load (Unity's `sceneLoaded`: `ZNetScene.Awake` has registered the prefabs, and `ZNetScene.Update` hasn't
