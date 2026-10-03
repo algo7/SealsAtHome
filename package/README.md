@@ -46,6 +46,8 @@ new creatures, items or effects.
 - **Tamed seals never fight:** when something hurts them they run off for a while, then come back.
 - **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 - **A scared seal won't eat.** If you spooked it, back off and give it half a minute.
+- **Wild seals are afraid of fire:** near a campfire or hearth they get frightened and won't tame, so tame them away
+  from fires. Tamed seals don't mind.
 - Taming only progresses while the seal is fed and not frightened (see its hover text).
 - With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. One catch: players **without**
   the mod can hurt tamed adult seals with any weapon (see Multiplayer).
