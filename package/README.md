@@ -52,6 +52,8 @@ new creatures, items or effects.
 - With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. One catch: players **without**
   the mod can hurt tamed adult seals with any weapon (see Multiplayer).
 - Pups keep aging while you're away, as long as the world (or server) is running.
+- **Starred pups:** Valheim never spawns wild seal pups with stars (the game's vanilla code, which this mod doesn't
+  touch), but you can get one by breeding: a pup gets the stars of the seal that gives birth to it.
 
 ## Multiplayer
 
