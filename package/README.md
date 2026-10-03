@@ -70,9 +70,13 @@ group has the mod, same version.
 ## Compatibility
 
 - Built and tested for Valheim 1.0 (Deep North). Tested on Linux; there's no OS-specific code.
-- If another mod has already changed the seals when a world loads (TameableSeals, "tame everything" mods), SealsAtHome
-  leaves them alone and says why in `BepInEx/LogOutput.log`. Remove one of the two.
-- No game code is patched and there's no config file: only the two seal creatures change.
+- **With TameableSeals installed too**, SealsAtHome steps aside and leaves the seals to it (the log says so): you get
+  TameableSeals' seals, wolf sounds included. Keep one of the two.
+- **If another mod already changed the seals when a world loads** (gave them taming or a different AI, like "tame
+  everything" mods), SealsAtHome leaves them alone and says why in `BepInEx/LogOutput.log`.
+- **Mods that change seals later, or change creatures while they're alive**, can't be detected. If seals act strangely
+  with one of them, please open an issue.
+- Mods that don't touch seals aren't affected: no game code is patched, nothing else changes, and there's no config file.
 - Every language the game has: all texts are the game's own.
 
 ## Uninstalling
@@ -81,6 +85,13 @@ Nothing is stored in your characters. Tamed seals stay tamed in your world (gree
 run from players), but they stop following and wander where they are, so tell them to **stay** at home first. Without
 the mod they don't breed or grow up, and any weapon can hurt tamed adults again (a vanilla seal quirk). Reinstalling
 picks up where you left off.
+
+## Thanks
+
+SealsAtHome started from [TameableSeals](https://thunderstore.io/c/valheim/p/pseudopulse/TameableSeals/) by
+pseudopulse: thanks for the idea of tameable seals! SealsAtHome is a fresh take on it, built on the game's own taming,
+AI and breeding, so seals act like any vanilla tameable, with their own sounds, breeding, and pups that grow up (or stay
+babies), and friends without the mod still see your pets.
 
 ## Links
 
