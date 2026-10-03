@@ -89,10 +89,11 @@ picks up where you left off.
 
 ## Thanks
 
-SealsAtHome started from [TameableSeals](https://thunderstore.io/c/valheim/p/pseudopulse/TameableSeals/) by
-pseudopulse: thanks for the idea of tameable seals! SealsAtHome is a fresh take on it, built on the game's own taming,
-AI and breeding, so seals act like any vanilla tameable, with their own sounds, breeding, and pups that grow up (or stay
-babies), and friends without the mod still see your pets.
+SealsAtHome started from [TameableSeals](https://thunderstore.io/c/valheim/p/pseudopulse/TameableSeals/) by pseudopulse:
+thanks for the idea of tameable seals! TameableSeals has no public source to contribute to, so SealsAtHome was built
+separately. It's a fresh take on the idea, built on the game's own taming, AI and breeding, so seals act like any
+vanilla tameable, with their own sounds, breeding, and pups that grow up (or stay babies), and friends without the mod
+still see your pets.
 
 ## Links
 
