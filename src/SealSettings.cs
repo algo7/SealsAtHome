@@ -121,6 +121,7 @@ namespace SealsAtHome
         {
             Of<MonsterAI>("m_fleeIfLowHealth", 1f),    // health below 100 %: any hit makes it run
             Of<MonsterAI>("m_fleeTimeSinceHurt", 15f), // the vanilla seal's 15 s to feel safe
+            Of<MonsterAI>("m_aggravatable", false),    // the vanilla Seal's true lets players hit tamed seals; no vanilla tameable has it
             Of<MonsterAI>("m_attackPlayerObjects", false),
             Of<MonsterAI>("m_enableHuntPlayer", false),
             Of<MonsterAI>("m_sleeping", false),

@@ -49,7 +49,7 @@ new creatures, items or effects.
 - **A wild seal won't eat while it remembers you.** It only notices you within about 2 m. If it did, step away and
   wait about half a minute.
 - Taming only progresses while the seal is fed and not frightened (see its hover text).
-- With PvP off, only the butcher knife hurts tamed seals. They never despawn.
+- With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. They never despawn.
 - Pups keep aging while you're away, as long as the world (or server) is running.
 
 ## Multiplayer
@@ -57,7 +57,8 @@ new creatures, items or effects.
 SealsAtHome runs only on your client; servers don't need it. The game lets one player's game run each creature
 (whoever was there first keeps it). Taming, commands, naming, breeding and growing up only happen while that's a
 player **with** the mod. Players without it still see vanilla seals, the green health bar on tamed ones, pet names and
-all effects; they just can't command or tame them. Best: everyone in your group has the mod, same version.
+all effects; they just can't command or tame them, and their weapons can still hurt tamed adult seals (vanilla seals
+are "provokable" like the Dvergr; pups aren't). Best: everyone in your group has the mod, same version.
 
 ## Compatibility
 
@@ -71,7 +72,8 @@ all effects; they just can't command or tame them. Best: everyone in your group 
 
 Nothing is stored in your characters. Tamed seals stay tamed in your world (green health bar, pet names, they don't
 run from players), but they stop following and wander where they are, so tell them to **stay** at home first. Without
-the mod they don't breed or grow up. Reinstalling picks up where you left off.
+the mod they don't breed or grow up, and any weapon can hurt tamed adults again (a vanilla seal quirk). Reinstalling
+picks up where you left off.
 
 ## Links
 

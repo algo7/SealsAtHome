@@ -52,6 +52,13 @@ internal static partial class Tests
         False(SealSettings.RequiredPrefabs.Any(n => n.ToLowerInvariant().Contains("wolf")), "no wolf effect anywhere");
     }
 
+    private static void Test_Settings_TamedSeals_OnlyTheButcherKnifeHurtsThem()
+    {
+        // Attack / Aoe / Projectile let a player hit any aggravatable creature, tamed or not; the vanilla Seal is
+        // aggravatable (like the Dvergr), every vanilla tameable isn't. Wild seals stay hittable: they're enemies.
+        Eq(false, (bool)Setting(SealSettings.AI, "m_aggravatable").Value, "not aggravatable, like vanilla tameables");
+    }
+
     private static void Test_Settings_WildAndTamedSwitchTheSameFields()
     {
         Eq(string.Join(",", SealSettings.WildSwitch.Select(s => s.Field)), string.Join(",", SealSettings.TamedSwitch.Select(s => s.Field)), "same fields");
