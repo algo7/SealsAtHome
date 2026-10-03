@@ -52,16 +52,11 @@ new creatures, items or effects.
 ## Multiplayer
 
 SealsAtHome only runs in players' games; servers don't need it. Valheim lets one player's game run each creature at a
-time: usually whoever got to the area first, until they leave or log out. A seal does what that player's game says:
+time. When you're near seals, your game takes them over from friends without the mod, so everything works: taming,
+feeding, follow / stay, names, breeding, pups growing up, and anyone with the mod can command them.
 
-- **Run by a player with the mod:** everything works: taming, feeding, follow / stay, names, breeding, pups growing up.
-- **Run by a player without the mod:** for the moment it's a vanilla seal: it doesn't eat, tame, breed or grow, it
-  wanders instead of following, and E does nothing. Nothing is lost: it all picks up again once a player with the mod
-  runs it.
-- A seal following you stays near you, so your game keeps running it.
-
-If E does nothing while a friend without the mod is around, they got there first: have them walk well away for a
-moment, or be there first next time.
+Only when nobody with the mod is around does a seal act like a vanilla seal for the moment: it doesn't eat, tame, breed
+or grow, and it wanders instead of following. Nothing is lost: it all picks up again when someone with the mod comes by.
 
 Players without the mod still see your tamed seals with green health bars, pet names, hearts and sounds. Their weapons
 can still hurt tamed adult seals (vanilla seals are "provokable" like the Dvergr; pups aren't). Best: everyone in your

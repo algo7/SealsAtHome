@@ -92,13 +92,22 @@ player whose area loads the seals runs them, until they leave the area or log ou
 and state. A seal following you stays in your area, so it stays yours.
 
 Everything the mod adds runs on the owner: the taming countdown and eating (`Tameable`, `MonsterAI`), breeding
-(`Procreation`), name copying and growing up (`SealCare`); E sends a `Command` RPC to the owner. When the owner doesn't
-have the mod, their game runs a vanilla seal (`AnimalAI`, no `Tameable`): it doesn't eat, tame, breed or grow, it
-wanders instead of following, and E from a player with the mod does nothing (the owner's log shows "Failed to find rpc
-method"). Nothing is lost: all state lives in the ZDO (tamed flag, follow target, name, love points, tamed-at time), and
-`Tameable.UpdateSavedFollowTarget` picks the saved follow target up again as soon as a player with the mod owns the
-seal. On a dedicated server the mod does nothing (it skips batch mode); what a seal does depends on the player whose
-game owns it.
+(`Procreation`), name copying and growing up (`SealCare`); E sends a `Command` RPC to the owner, so any player with the
+mod can command a seal whoever runs it. A game without the mod runs a vanilla seal (`AnimalAI`, no `Tameable`): it
+doesn't eat, tame, breed or grow, it wanders instead of following, and a `Command` RPC sent to it finds no handler.
+
+So modded games take seals over from players without the mod. Each modded game marks its own player's character ZDO
+with a hidden bool (`SealsAtHome_Player`; vanilla ignores unknown keys). Every 2 s, `SealCare` on a seal this game
+doesn't own checks the owner: if it's a loaded player whose character lacks the mark, the seal is claimed with
+`ZNetView.ClaimOwnership` (the call vanilla uses for containers, signs, fires and turrets). It never claims from a
+modded owner (no ping-pong) or from an owner whose character isn't loaded here, and the claim sticks:
+`ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. The decision is a unit-tested rule
+(`Takeover.ShouldClaim`).
+
+Seals act vanilla only while no player with the mod is near them. Nothing is lost: all state lives in the ZDO (tamed
+flag, follow target, name, love points, tamed-at time), and `Tameable.UpdateSavedFollowTarget` picks the saved follow
+target up again as soon as a modded game owns the seal. On a dedicated server the mod does nothing (it skips batch
+mode).
 
 ## Building
 
