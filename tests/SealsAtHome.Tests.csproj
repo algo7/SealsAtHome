@@ -10,14 +10,16 @@
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
     <EnableDefaultItems>false</EnableDefaultItems>
-    <!-- The game assemblies target .NET Framework; they load fine for reflection and plain data classes. -->
-    <NoWarn>$(NoWarn);NU1701;MSB3277</NoWarn>
+    <!-- The game assemblies target .NET Framework; they load fine for reflection and plain data classes.
+         SYSLIB0050: FieldInfo.IsNotSerialized is obsolete on .NET 8 but is what Unity (net48 / Mono) reads. -->
+    <NoWarn>$(NoWarn);NU1701;MSB3277;SYSLIB0050</NoWarn>
     <ValheimDir Condition="'$(ValheimDir)' == ''">$(HOME)/.local/share/Steam/steamapps/common/Valheim</ValheimDir>
     <ManagedDir Condition="'$(ManagedDir)' == ''">$(ValheimDir)/valheim_Data/Managed</ManagedDir>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="*.cs" />
+    <Compile Include="../src/UnitySerialization.cs" />
   </ItemGroup>
 
   <ItemGroup>
