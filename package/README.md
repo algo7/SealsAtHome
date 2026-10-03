@@ -36,7 +36,7 @@ new creatures, items or effects.
 *Two fed, tamed seals close together fall in love.*
 
 ![A tame baby seal born next to its parents](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/baby-seal.jpg)
-*A pup is born, already tame.*
+*A pup is born.*
 
 ![A tamed pup named "Ultra Cute", with the Pet and Rename prompts](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/named-pup.jpg)
 *Give a pup a name and it stays a baby forever.*
