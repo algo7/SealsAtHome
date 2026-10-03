@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+Documentation only, the mod itself is unchanged: new tips on the mod page (fire, starred pups) and how it works for
+friends without the mod.
+
 ## 1.0.0
 
 First release.
