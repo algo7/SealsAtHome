@@ -20,6 +20,7 @@
   <ItemGroup>
     <Compile Include="*.cs" />
     <Compile Include="../src/UnitySerialization.cs" />
+    <Compile Include="../src/SealSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>
