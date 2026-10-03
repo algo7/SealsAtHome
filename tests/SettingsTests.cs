@@ -21,7 +21,7 @@ internal static partial class Tests
     private static void Test_Settings_RequiredPrefabs()
     {
         var names = SealSettings.RequiredPrefabs.ToList();
-        Eq("Seal,Seal_Pup,FishRaw,vfx_creature_soothed,fx_creature_tamed,sfx_seal_idle,sfx_babyseal_idle,vfx_boar_love,vfx_boar_birth",
+        Eq("Seal,Seal_Pup,FishRaw,vfx_creature_soothed,fx_creature_tamed,vfx_lox_love,sfx_seal_idle,sfx_babyseal_idle,vfx_boar_love,vfx_boar_birth",
             string.Join(",", names), "every prefab the rebuild uses, once");
     }
 
@@ -46,8 +46,8 @@ internal static partial class Tests
 
     private static void Test_Settings_SealSoundsNeverTheWolf()
     {
-        Eq("vfx_creature_soothed,sfx_seal_idle", string.Join(",", Setting(SealSettings.TameableFor(false), "m_petEffect").PrefabNames), "adult pet effect");
-        Eq("vfx_creature_soothed,sfx_babyseal_idle", string.Join(",", Setting(SealSettings.TameableFor(true), "m_petEffect").PrefabNames), "pup pet effect");
+        Eq("vfx_lox_love,sfx_seal_idle", string.Join(",", Setting(SealSettings.TameableFor(false), "m_petEffect").PrefabNames), "adult pet effect: pink pet hearts");
+        Eq("vfx_lox_love,sfx_babyseal_idle", string.Join(",", Setting(SealSettings.TameableFor(true), "m_petEffect").PrefabNames), "pup pet effect: pink pet hearts");
         Eq("sfx_babyseal_idle", string.Join(",", Setting(SealSettings.HumanoidFor(true), "m_consumeItemEffects").PrefabNames), "pup eating sound");
         False(SealSettings.RequiredPrefabs.Any(n => n.ToLowerInvariant().Contains("wolf")), "no wolf effect anywhere");
     }

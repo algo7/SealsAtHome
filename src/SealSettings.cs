@@ -89,6 +89,10 @@ namespace SealsAtHome
         public const string PupSound = "sfx_babyseal_idle";
         public const string Hearts = "vfx_creature_soothed";
         public const string TamedEffect = "fx_creature_tamed";
+
+        /// <summary>The pink hearts vanilla tameables show when petted (the lox's pet hearts, without its sound).</summary>
+        public const string PetHearts = "vfx_lox_love";
+
         public const string LoveHearts = "vfx_boar_love";
         public const string BirthSplash = "vfx_boar_birth";
 
@@ -139,7 +143,7 @@ namespace SealsAtHome
             Of<Tameable>("m_tamingBoostMultiplier", 2f),
             Effects<Tameable>("m_sootheEffect", Hearts),
             Effects<Tameable>("m_tamedEffect", TamedEffect),
-            Effects<Tameable>("m_petEffect", Hearts, pup ? PupSound : SealSound),
+            Effects<Tameable>("m_petEffect", PetHearts, pup ? PupSound : SealSound),
         };
 
         /// <summary>Vanilla Boar / Moose values.</summary>
