@@ -15,7 +15,8 @@ new creatures, items or effects.
 
 - **Taming like vanilla:** raw fish, 30 minutes, fed for 10 minutes, the usual hearts and messages. Taming-boost effects
   work as for any tameable.
-- **Follow / stay with E**, with the seal's own sound (pups: the baby seal's), and **Alt+E** to name it.
+- **Follow / stay with E**, with the seal's own sound (pups: the baby seal's), and **Shift+E** to name it, as with any
+  tamed animal.
 - **Breeding:** two tamed, fed seals close together make a pup that's born tame (vanilla Boar / Moose values).
 - **Pups grow up** 50 minutes after taming (bred pups: after birth). **A named pup stays a baby forever**: clear its
   name and it grows up.
@@ -26,10 +27,16 @@ new creatures, items or effects.
 ## Screenshots
 
 ![Two tamed seals at home, with green health bars](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/tamed-seals.jpg)
+*Tamed seals at home.*
 
 ![Breeding: pink love hearts over two tamed seals and their pup](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/breeding.jpg)
+*Two fed, tamed seals close together fall in love.*
 
 ![A tame baby seal born next to its parents](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/baby-seal.jpg)
+*A pup is born, already tame.*
+
+![A tamed pup named "Ultra Cute", with the Pet and Rename prompts](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/named-pup.jpg)
+*Name a pup with Shift+E and it stays a baby forever.*
 
 ## How Things Behave
 
