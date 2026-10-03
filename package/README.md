@@ -20,8 +20,6 @@ new creatures, items or effects.
 - **Pups grow up** like vanilla cubs. Prefer the cute baby seal? Give it a name and it stays a baby forever. Clear
   the name and it grows up again.
 - **Wild pups can be tamed** too: bring one home with the Abyssal Harpoon.
-- **Tamed seals never fight:** when something hurts them they run off for a while, then come back.
-- **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 
 ## Screenshots
 
@@ -45,6 +43,8 @@ new creatures, items or effects.
 
 ## How Things Behave
 
+- **Tamed seals never fight:** when something hurts them they run off for a while, then come back.
+- **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 - **A scared seal won't eat.** If you spooked it, back off and give it half a minute.
 - Taming only progresses while the seal is fed and not frightened (see its hover text).
 - With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. They never despawn.
