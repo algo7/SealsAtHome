@@ -71,8 +71,8 @@ group has the mod, same version.
 - Built and tested for Valheim 1.0 (Deep North). Tested on Linux; there's no OS-specific code.
 - **If another mod already changed the seals when a world loads** (gave them taming or a different AI, like "tame
   everything" mods), SealsAtHome leaves them alone and says why in `BepInEx/LogOutput.log`.
-- **Mods that change seals later, or change creatures while they're alive**, can't be detected. If seals act strangely
-  with one of them, please open an issue.
+- **Other mods that change creatures as they spawn** (taming, AI or creature-overhaul mods) can clash with SealsAtHome
+  without it noticing. If seals act strangely next to another mod, please open an issue.
 - Mods that don't touch seals aren't affected: no game code is patched, nothing else changes, and there's no config file.
 - Every language the game has: all texts are the game's own.
 
