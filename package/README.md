@@ -53,10 +53,11 @@ new creatures, items or effects.
 
 ## Multiplayer
 
-SealsAtHome only runs in players' games; servers don't need it. Valheim lets one player's game run each creature at a
-time. When you're near seals, your game takes them over from friends without the mod (it can take up to half a minute
-after you arrive), so everything works: taming, feeding, follow / stay, names, breeding, pups growing up, and anyone
-with the mod can command them.
+SealsAtHome only runs in players' games: dedicated servers don't need it and don't run it. Valheim lets one player's
+game run each creature at a time. When you're near seals, your game takes them over from friends without the mod (it
+can take up to half a minute after you arrive), so everything works: taming, feeding, follow / stay, names, breeding,
+pups growing up, and anyone with the mod can command them. That's how it's built and checked against the game's code,
+but it hasn't been fully tested with friends yet: please report how it goes.
 
 Only when nobody with the mod is around does a seal act like a vanilla seal for the moment: it doesn't eat, tame, breed
 or grow, and it wanders instead of following. Nothing is lost: it all picks up again when someone with the mod comes by.
