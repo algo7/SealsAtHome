@@ -1,6 +1,7 @@
 # SealsAtHome
 
 [![CI](https://github.com/algo7/SealsAtHome/actions/workflows/ci.yml/badge.svg)](https://github.com/algo7/SealsAtHome/actions/workflows/ci.yml)
+[![Thunderstore](https://img.shields.io/badge/Thunderstore-SealsAtHome-blue)](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/)
 
 A client-side [BepInEx](https://github.com/BepInEx/BepInEx) mod for Valheim: tame seals like any vanilla tameable, breed
 them, and keep pups as babies by naming them. Players without the mod only ever see vanilla things.
