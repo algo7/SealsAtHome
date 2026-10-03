@@ -96,13 +96,13 @@ Everything the mod adds runs on the owner: the taming countdown and eating (`Tam
 mod can command a seal whoever runs it. A game without the mod runs a vanilla seal (`AnimalAI`, no `Tameable`): it
 doesn't eat, tame, breed or grow, it wanders instead of following, and a `Command` RPC sent to it finds no handler.
 
-So modded games take seals over from players without the mod. Each modded game marks its own player's character ZDO
-with a hidden bool (`SealsAtHome_Player`; vanilla ignores unknown keys). Every 2 s, `SealCare` on a seal this game
-doesn't own checks the owner: if it's a loaded player whose character lacks the mark, the seal is claimed with
-`ZNetView.ClaimOwnership` (the call vanilla uses for containers, signs, fires and turrets). It never claims from a
-modded owner (no ping-pong) or from an owner whose character isn't loaded here, and the claim sticks:
-`ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. The decision is a unit-tested rule
-(`Takeover.ShouldClaim`).
+So modded games take seals over from players without the mod. A modded game that runs a seal stamps a hidden
+heartbeat on it every 10 s (`SealsAtHome_Beat`, world time; vanilla ignores unknown keys). Every 2 s, `SealCare` on a
+seal this game doesn't own checks it: no heartbeat for over 30 s means the game running it doesn't have the mod, so the
+seal is claimed with `ZNetView.ClaimOwnership` (the call vanilla uses for containers, signs, fires and turrets). It
+never claims a seal with a fresh heartbeat (no ping-pong between modded players), and the claim sticks:
+`ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. The heartbeat is on the seal itself, so
+this works wherever the other player is. The decision is a unit-tested rule (`Takeover`).
 
 Seals act vanilla only while no player with the mod is near them. Nothing is lost: all state lives in the ZDO (tamed
 flag, follow target, name, love points, tamed-at time), and `Tameable.UpdateSavedFollowTarget` picks the saved follow

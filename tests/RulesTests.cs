@@ -68,17 +68,36 @@ internal static partial class Tests
     }
 
     private const long Me = 111, Friend = 222;
+    private static readonly long Second = TimeSpan.TicksPerSecond;
 
-    private static void Test_Takeover_ClaimsSealsRunByAPlayerWithoutTheMod()
+    private static void Test_Takeover_ClaimsSealsWhoseRunnerHasNoMod()
     {
-        True(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: false), "a friend without the mod runs it: take it over");
+        True(Takeover.ShouldClaim(false, Friend, 0, Now), "never beaten: a game without the mod runs it");
+        True(Takeover.ShouldClaim(false, Friend, Now - 31 * Second, Now), "beat stopped over 30 s ago: runner has no mod now");
     }
 
-    private static void Test_Takeover_NeverFromAModdedOrUnknownOwner()
+    private static void Test_Takeover_NeverFromARunnerWithTheMod()
     {
-        False(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: true), "a modded owner handles commands itself: no ping-pong");
-        False(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: null), "owner's character not loaded here (e.g. a server): leave it");
-        False(Takeover.ShouldClaim(isOwner: false, owner: 0, ownerHasMod: null), "no owner yet: vanilla hands it out");
-        False(Takeover.ShouldClaim(isOwner: true, owner: Me, ownerHasMod: true), "already ours");
+        False(Takeover.ShouldClaim(false, Friend, Now - 5 * Second, Now), "fresh beat: a modded game runs it, no ping-pong");
+        False(Takeover.ShouldClaim(false, Friend, Now - 30 * Second, Now), "up to 30 s (3 missed beats) still counts as modded");
+    }
+
+    private static void Test_Takeover_NotWhenUnownedOrOurs()
+    {
+        False(Takeover.ShouldClaim(false, 0, 0, Now), "no owner yet: vanilla hands it out");
+        False(Takeover.ShouldClaim(true, Me, 0, Now), "already ours");
+    }
+
+    private static void Test_Takeover_ClockWentBackCountsAsStale()
+    {
+        True(Takeover.ShouldClaim(false, Friend, Now + 60 * Second, Now), "beat in the future: never trust it forever");
+        True(Takeover.ShouldBeat(Now + 60 * Second, Now), "owner re-stamps a beat from the future");
+    }
+
+    private static void Test_Takeover_OwnerBeatsEvery10Seconds()
+    {
+        True(Takeover.ShouldBeat(0, Now), "first beat");
+        False(Takeover.ShouldBeat(Now - 9 * Second, Now), "not yet");
+        True(Takeover.ShouldBeat(Now - 10 * Second, Now), "10 s since the last beat");
     }
 }

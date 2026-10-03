@@ -40,14 +40,22 @@ namespace SealsAtHome
     }
 
     /// <summary>
-    /// Whether this game takes a seal over from the player whose game runs it (decided by SealCare on non-owners).
-    /// A game without the mod can't tame, feed or command seals, so a modded player nearby runs them instead. Unity-free.
+    /// Taking seals over from games without the mod (decided by SealCare). The game that runs a seal stamps a hidden
+    /// heartbeat on it every 10 s when it has the mod; a seal whose heartbeat stopped is run by a game that can't tame,
+    /// feed or command it, so a modded game nearby claims it. Unity-free.
     /// </summary>
     internal static class Takeover
     {
+        private static readonly long BeatTicks = (long)(SealSettings.BeatSeconds * TimeSpan.TicksPerSecond);
+        private static readonly long StaleTicks = (long)(SealSettings.StaleSeconds * TimeSpan.TicksPerSecond);
+
+        /// <summary>Owner: stamp the heartbeat now (never stamped, 10 s since the last one, or a stamp from the future).</summary>
+        public static bool ShouldBeat(long beatTicks, long nowTicks) =>
+            beatTicks <= 0 || beatTicks > nowTicks || nowTicks - beatTicks >= BeatTicks;
+
         /// <param name="owner">The seal's owner (peer id); 0 = none yet.</param>
-        /// <param name="ownerHasMod">Whether the owner's character carries the SealsAtHome mark; null = not loaded here.</param>
-        public static bool ShouldClaim(bool isOwner, long owner, bool? ownerHasMod) =>
-            !isOwner && owner != 0 && ownerHasMod == false; // never from a modded or unknown owner: no ping-pong
+        /// <param name="beatTicks">The seal's heartbeat (world time ticks); 0 = never stamped.</param>
+        public static bool ShouldClaim(bool isOwner, long owner, long beatTicks, long nowTicks) =>
+            !isOwner && owner != 0 && (beatTicks <= 0 || beatTicks > nowTicks || nowTicks - beatTicks > StaleTicks);
     }
 }

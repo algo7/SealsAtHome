@@ -102,8 +102,13 @@ namespace SealsAtHome
         /// <summary>Hidden ZDO key: world time (ticks) when SealCare first saw a pup tamed.</summary>
         public const string TamedAtKey = "SealsAtHome_TamedAt";
 
-        /// <summary>Hidden ZDO key on a player's character: that player's game runs SealsAtHome (see Takeover).</summary>
-        public const string ModdedPlayerKey = "SealsAtHome_Player";
+        /// <summary>Hidden ZDO key: world time (ticks) of the last heartbeat from a modded game running the seal (see Takeover).</summary>
+        public const string BeatKey = "SealsAtHome_Beat";
+
+        /// <summary>A modded owner stamps the heartbeat this often; older than StaleSeconds, others take the seal over.</summary>
+        public const double BeatSeconds = 10;
+
+        public const double StaleSeconds = 30;
 
         /// <summary>Wild seals run as soon as they notice you (~2 m).</summary>
         public static readonly FieldSetting[] WildSwitch =

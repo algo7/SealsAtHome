@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SealsAtHome
@@ -6,8 +7,8 @@ namespace SealsAtHome
     /// <summary>
     /// On every rebuilt seal (added to the Seal and Seal_Pup prefabs). Every 2 s:
     /// on every client, switch the MonsterAI between wild and tamed settings when the tamed state changes, and take the
-    /// seal over when a player without the mod runs it (Takeover);
-    /// on the game that owns the seal, copy the pet name into the vanilla override-name field (players without the mod
+    /// seal over when its heartbeat stopped, i.e. a game without the mod runs it (Takeover);
+    /// on the game that owns the seal, stamp the heartbeat, copy the pet name into the vanilla override-name field (players without the mod
     /// see it) and, on pups, every 10 s, apply the grow-up rule (PupGrowth). Never throws.
     /// </summary>
     public sealed class SealCare : MonoBehaviour
@@ -19,8 +20,9 @@ namespace SealsAtHome
         public bool m_isPup;
 
         private static readonly int s_tamedAtHash = SealSettings.TamedAtKey.GetStableHashCode();
+        private static readonly int s_beatHash = SealSettings.BeatKey.GetStableHashCode();
+        private static readonly HashSet<long> s_takenFrom = new HashSet<long>();
         private static bool s_errorLogged;
-        private static bool s_takeoverLogged;
 
         private ZNetView m_nview;
         private Character m_character;
@@ -49,22 +51,23 @@ namespace SealsAtHome
                     m_tamedApplied = tamed;
                 }
 
-                ModdedPlayers.MarkLocalPlayer();
+                if (ZNet.instance == null) return;
+                var zdo = m_nview.GetZDO();
+                var now = ZNet.instance.GetTime().Ticks;
+                var beat = zdo.GetLong(s_beatHash);
                 if (!m_nview.IsOwner())
                 {
-                    var owner = m_nview.GetZDO().GetOwner();
-                    if (Takeover.ShouldClaim(false, owner, ModdedPlayers.HasMod(owner)))
+                    var owner = zdo.GetOwner();
+                    if (Takeover.ShouldClaim(false, owner, beat, now))
                     {
                         m_nview.ClaimOwnership();
-                        if (!s_takeoverLogged)
-                        {
-                            s_takeoverLogged = true;
-                            Plugin.Log.LogInfo("Took over seals run by a player without SealsAtHome (logged once)");
-                        }
+                        zdo.Set(s_beatHash, now); // at once, so other modded games see it's taken
+                        LogTakeover(owner);
                     }
                     return;
                 }
-                var zdo = m_nview.GetZDO();
+                if (Takeover.ShouldBeat(beat, now)) zdo.Set(s_beatHash, now);
+
                 var name = zdo.GetString(ZDOVars.s_tamedName);
                 if (NameCopy.ShouldWrite(name, zdo.GetString(ZDOVars.s_overrideHoverName)))
                 {
@@ -75,8 +78,7 @@ namespace SealsAtHome
                         : "Pet name cleared for players without the mod");
                 }
 
-                if (!m_isPup || ++m_ticks % GrowEveryTicks != 0 || ZNet.instance == null) return;
-                var now = ZNet.instance.GetTime().Ticks;
+                if (!m_isPup || ++m_ticks % GrowEveryTicks != 0) return;
                 switch (PupGrowth.Decide(tamed, name, zdo.GetLong(s_tamedAtHash), now))
                 {
                     case PupGrowth.Step.Stamp:
@@ -93,6 +95,16 @@ namespace SealsAtHome
                 s_errorLogged = true;
                 Plugin.Log.LogError($"SealCare failed (logged once): {e}");
             }
+        }
+
+        /// <summary>Once per player taken over from, by name when the player list has them.</summary>
+        private static void LogTakeover(long owner)
+        {
+            if (!s_takenFrom.Add(owner)) return;
+            var name = "a player";
+            foreach (var player in ZNet.instance.GetPlayerList())
+                if (player.m_characterID.UserID == owner) name = player.m_name;
+            Plugin.Log.LogInfo($"Took over seals from {name}: their game doesn't run SealsAtHome (logged once per player)");
         }
 
         /// <summary>As vanilla Growup: a tamed adult Seal at the same spot and star level, then the pup is removed.</summary>
