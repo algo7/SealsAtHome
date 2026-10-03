@@ -7,7 +7,11 @@ them, and keep pups as babies by naming them. Players without the mod only ever 
 
 ![Four tamed baby seals at home, one of them named "Ultra Cute"](images/header.jpg)
 
-What it does for players is in [package/README.md](package/README.md), which is also the mod's Thunderstore page.
+**Download:** [SealsAtHome on Thunderstore](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/) (install it with
+r2modman, Thunderstore Mod Manager or Gale).
+
+What it does for players is in [package/README.md](package/README.md), which is also the mod's
+[Thunderstore page](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/).
 Changes: [CHANGELOG.md](CHANGELOG.md).
 
 Made with AI assistance.
