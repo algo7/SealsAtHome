@@ -23,6 +23,14 @@ new creatures, items or effects.
 - **Tamed seals never fight:** they run from danger like hens, then come back.
 - **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 
+## Screenshots
+
+![Two tamed seals at home, with green health bars](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/tamed-seals.jpg)
+
+![Breeding: pink love hearts over two tamed seals and their pup](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/breeding.jpg)
+
+![A tame baby seal born next to its parents](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/baby-seal.jpg)
+
 ## How Things Behave
 
 - **A wild seal won't eat while it remembers you.** It only notices you within about 2 m. If it did, step away and

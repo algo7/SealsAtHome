@@ -5,6 +5,8 @@
 A client-side [BepInEx](https://github.com/BepInEx/BepInEx) mod for Valheim: tame seals like any vanilla tameable, breed
 them, and keep pups as babies by naming them. Players without the mod only ever see vanilla things.
 
+![Breeding: pink love hearts over two tamed seals and their pup](images/breeding.jpg)
+
 What it does for players is in [package/README.md](package/README.md), which is also the mod's Thunderstore page.
 Changes: [CHANGELOG.md](CHANGELOG.md).
 
