@@ -59,4 +59,11 @@ internal static partial class Tests
     {
         True(NameCopy.ShouldWrite("Snowball II", "Snowball"), "renamed while a player without the mod owned it: fixed later");
     }
+
+    private static void Test_NameCopy_StripsFormattingTagsLikeVanilla()
+    {
+        Eq("Snowball", NameCopy.Target("<b>Snowball</b>"), "shown as players with the mod see it (Tameable.GetHoverName strips tags)");
+        Eq("", NameCopy.Target("<size=99></size>"), "tags only: no name");
+        False(NameCopy.ShouldWrite("<color=red>Bob</color>", "Bob"), "already shown without its tags");
+    }
 }

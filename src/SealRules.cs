@@ -25,8 +25,15 @@ namespace SealsAtHome
     /// <summary>Copying the pet name into the vanilla override-name field, which players without the mod see. Unity-free.</summary>
     internal static class NameCopy
     {
-        /// <summary>What the override field should hold: the name, or empty for none (a blank name counts as none).</summary>
-        public static string Target(string tamedName) => string.IsNullOrWhiteSpace(tamedName) ? "" : tamedName;
+        /// <summary>
+        /// What the override field should hold: the name as players with the mod see it (vanilla strips formatting tags),
+        /// or empty for none (a blank name counts as none).
+        /// </summary>
+        public static string Target(string tamedName)
+        {
+            var shown = tamedName?.RemoveRichTextTags();
+            return string.IsNullOrWhiteSpace(shown) ? "" : shown;
+        }
 
         /// <summary>Only when it differs, so the seal's data isn't re-sent every tick.</summary>
         public static bool ShouldWrite(string tamedName, string shown) => Target(tamedName) != (shown ?? "");
