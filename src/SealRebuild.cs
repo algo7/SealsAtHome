@@ -25,7 +25,7 @@ namespace SealsAtHome
             var problem = PreFlight(scene, seal, pup);
             if (problem != null)
             {
-                message = "Seals stay vanilla: " + problem;
+                message = "SealsAtHome leaves the seals alone: " + problem; // vanilla, or as another mod made them
                 return false;
             }
             foreach (var (prefab, isPup) in new[] { (seal, false), (pup, true) })
