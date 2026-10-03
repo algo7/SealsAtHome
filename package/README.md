@@ -70,8 +70,6 @@ group has the mod, same version.
 ## Compatibility
 
 - Built and tested for Valheim 1.0 (Deep North). Tested on Linux; there's no OS-specific code.
-- **With TameableSeals installed too**, SealsAtHome steps aside and leaves the seals to it (the log says so): you get
-  TameableSeals' seals, wolf sounds included. Keep one of the two.
 - **If another mod already changed the seals when a world loads** (gave them taming or a different AI, like "tame
   everything" mods), SealsAtHome leaves them alone and says why in `BepInEx/LogOutput.log`.
 - **Mods that change seals later, or change creatures while they're alive**, can't be detected. If seals act strangely
