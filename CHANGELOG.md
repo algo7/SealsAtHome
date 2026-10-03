@@ -4,7 +4,7 @@
 
 First release.
 
-- Seals and seal pups can be tamed with raw fish, like vanilla tameables (30 minutes, fed for 10 minutes).
-- E makes a tamed seal follow or stay, with the seal's own sound.
-- Tamed seals breed. Pups grow up 50 minutes after taming; a named pup stays a baby.
-- Pet names show for players without the mod too.
+- Tame seals and seal pups with raw fish, like any vanilla tameable.
+- Follow, stay and rename them, with their own seal sounds.
+- Tamed seals breed. Pups grow up like vanilla cubs; a named pup stays a baby.
+- Friends without the mod still see your pets, and seals near you listen to you.
