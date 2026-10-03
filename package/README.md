@@ -1,6 +1,6 @@
 # SealsAtHome
 
-![A fluffy white seal pup on an ice floe under the Deep North sky](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/cute-pup.png)
+![Four tamed baby seals at home, one of them named "Ultra Cute"](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/header.jpg)
 
 Tame the Deep North's seals like any vanilla tameable: feed them raw fish, call them to follow or stay with E, breed
 them at home, and keep their pups as babies if you like. Client-side, and everything other players see is vanilla: no
