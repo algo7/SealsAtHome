@@ -5,7 +5,7 @@
 A client-side [BepInEx](https://github.com/BepInEx/BepInEx) mod for Valheim: tame seals like any vanilla tameable, breed
 them, and keep pups as babies by naming them. Players without the mod only ever see vanilla things.
 
-![Breeding: pink love hearts over two tamed seals and their pup](images/breeding.jpg)
+![A fluffy white seal pup on an ice floe under the Deep North sky](images/cute-pup.png)
 
 What it does for players is in [package/README.md](package/README.md), which is also the mod's Thunderstore page.
 Changes: [CHANGELOG.md](CHANGELOG.md).
@@ -56,7 +56,7 @@ The Makefile looks for the SDK in `~/.dotnet`; pass `DOTNET=dotnet` if it's on y
 SealsAtHome.csproj         net48 plugin; Package target (zip + generated manifest)
 src/                       plugin: scene hook, prefab rebuild, settings tables, rules, SealCare component
 package/                   Thunderstore README and icon (icon.svg is its source)
-images/                    screenshots for the READMEs (not in the zip)
+images/                    screenshots and the header picture for the READMEs (not in the zip)
 tests/                     unit tests (net8.0)
 thunderstore.toml          Thunderstore publishing settings (tcli)
 .github/                   workflows, Dependabot, the CI helper that fetches the game DLLs
