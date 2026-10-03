@@ -17,7 +17,8 @@ new creatures, items or effects.
 - **Taming like vanilla:** raw fish, the usual hearts and messages.
 - **Follow, stay and rename** just like vanilla tamed animals, with their own seal sounds.
 - **Breeding** like vanilla: two happy, fed seals make a pup that's born tame.
-- **Pups grow up** like vanilla cubs. Prefer the cute baby seal? Give it a name and it stays a baby forever.
+- **Pups grow up** like vanilla cubs. Prefer the cute baby seal? Give it a name and it stays a baby forever. Clear
+  the name and it grows up again.
 - **Wild pups can be tamed** too: bring one home with the Abyssal Harpoon.
 - **Tamed seals never fight:** when something hurts them they run off for a while, then come back.
 - **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
