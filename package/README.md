@@ -47,8 +47,8 @@ new creatures, items or effects.
 - **Wild seals behave like before:** lazy, they scoot away when you get very close and run when hit.
 - **A scared seal won't eat.** If you spooked it, back off and give it half a minute.
 - Taming only progresses while the seal is fed and not frightened (see its hover text).
-- With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. They never despawn. One catch:
-  players **without** the mod can hurt tamed adult seals with any weapon (see Multiplayer).
+- With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. One catch: players **without**
+  the mod can hurt tamed adult seals with any weapon (see Multiplayer).
 - Pups keep aging while you're away, as long as the world (or server) is running.
 
 ## Multiplayer
