@@ -102,6 +102,9 @@ namespace SealsAtHome
         /// <summary>Hidden ZDO key: world time (ticks) when SealCare first saw a pup tamed.</summary>
         public const string TamedAtKey = "SealsAtHome_TamedAt";
 
+        /// <summary>Hidden ZDO key on a player's character: that player's game runs SealsAtHome (see Takeover).</summary>
+        public const string ModdedPlayerKey = "SealsAtHome_Player";
+
         /// <summary>Wild seals run as soon as they notice you (~2 m).</summary>
         public static readonly FieldSetting[] WildSwitch =
         {

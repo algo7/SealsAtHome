@@ -5,7 +5,8 @@ namespace SealsAtHome
 {
     /// <summary>
     /// On every rebuilt seal (added to the Seal and Seal_Pup prefabs). Every 2 s:
-    /// on every client, switch the MonsterAI between wild and tamed settings when the tamed state changes;
+    /// on every client, switch the MonsterAI between wild and tamed settings when the tamed state changes, and take the
+    /// seal over when a player without the mod runs it (Takeover);
     /// on the game that owns the seal, copy the pet name into the vanilla override-name field (players without the mod
     /// see it) and, on pups, every 10 s, apply the grow-up rule (PupGrowth). Never throws.
     /// </summary>
@@ -19,6 +20,7 @@ namespace SealsAtHome
 
         private static readonly int s_tamedAtHash = SealSettings.TamedAtKey.GetStableHashCode();
         private static bool s_errorLogged;
+        private static bool s_takeoverLogged;
 
         private ZNetView m_nview;
         private Character m_character;
@@ -47,7 +49,21 @@ namespace SealsAtHome
                     m_tamedApplied = tamed;
                 }
 
-                if (!m_nview.IsOwner()) return;
+                ModdedPlayers.MarkLocalPlayer();
+                if (!m_nview.IsOwner())
+                {
+                    var owner = m_nview.GetZDO().GetOwner();
+                    if (Takeover.ShouldClaim(false, owner, ModdedPlayers.HasMod(owner)))
+                    {
+                        m_nview.ClaimOwnership();
+                        if (!s_takeoverLogged)
+                        {
+                            s_takeoverLogged = true;
+                            Plugin.Log.LogInfo("Took over seals run by a player without SealsAtHome (logged once)");
+                        }
+                    }
+                    return;
+                }
                 var zdo = m_nview.GetZDO();
                 var name = zdo.GetString(ZDOVars.s_tamedName);
                 if (NameCopy.ShouldWrite(name, zdo.GetString(ZDOVars.s_overrideHoverName)))

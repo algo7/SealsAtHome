@@ -38,4 +38,16 @@ namespace SealsAtHome
         /// <summary>Only when it differs, so the seal's data isn't re-sent every tick.</summary>
         public static bool ShouldWrite(string tamedName, string shown) => Target(tamedName) != (shown ?? "");
     }
+
+    /// <summary>
+    /// Whether this game takes a seal over from the player whose game runs it (decided by SealCare on non-owners).
+    /// A game without the mod can't tame, feed or command seals, so a modded player nearby runs them instead. Unity-free.
+    /// </summary>
+    internal static class Takeover
+    {
+        /// <param name="owner">The seal's owner (peer id); 0 = none yet.</param>
+        /// <param name="ownerHasMod">Whether the owner's character carries the SealsAtHome mark; null = not loaded here.</param>
+        public static bool ShouldClaim(bool isOwner, long owner, bool? ownerHasMod) =>
+            !isOwner && owner != 0 && ownerHasMod == false; // never from a modded or unknown owner: no ping-pong
+    }
 }

@@ -66,4 +66,19 @@ internal static partial class Tests
         Eq("", NameCopy.Target("<size=99></size>"), "tags only: no name");
         False(NameCopy.ShouldWrite("<color=red>Bob</color>", "Bob"), "already shown without its tags");
     }
+
+    private const long Me = 111, Friend = 222;
+
+    private static void Test_Takeover_ClaimsSealsRunByAPlayerWithoutTheMod()
+    {
+        True(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: false), "a friend without the mod runs it: take it over");
+    }
+
+    private static void Test_Takeover_NeverFromAModdedOrUnknownOwner()
+    {
+        False(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: true), "a modded owner handles commands itself: no ping-pong");
+        False(Takeover.ShouldClaim(isOwner: false, owner: Friend, ownerHasMod: null), "owner's character not loaded here (e.g. a server): leave it");
+        False(Takeover.ShouldClaim(isOwner: false, owner: 0, ownerHasMod: null), "no owner yet: vanilla hands it out");
+        False(Takeover.ShouldClaim(isOwner: true, owner: Me, ownerHasMod: true), "already ours");
+    }
 }
