@@ -2,11 +2,11 @@
 
 ## 1.0.2
 
-- Multiplayer: games with the mod no longer take seals from each other (it happened now and then, for example while
-  sleeping or right after the host arrived).
-- When a friend without the mod is running seals near you, your game still takes them over so they work for you: the
-  first time within half a minute, after that usually at once.
-- Mod page: how close two seals must stand to breed.
+- Multiplayer: your game now takes seals over only from friends who really don't have the mod. Before, it sometimes
+  took them from friends who have the mod too, for example while sleeping or right after the host arrived.
+- To be sure, your game now watches a friend's seals for up to half a minute before taking them over the first time;
+  after that, it takes that friend's seals at once.
+- Mod page: breeding tips (stand really close, not too many seals around) and a clearer Multiplayer section.
 
 ## 1.0.1
 

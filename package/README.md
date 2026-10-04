@@ -16,7 +16,8 @@ new creatures, items or effects.
 
 - **Taming like vanilla:** raw fish, the usual hearts and messages.
 - **Follow, stay and rename** just like vanilla tamed animals, with their own seal sounds.
-- **Breeding** like vanilla: two happy, fed seals make a pup that's born tame.
+- **Breeding** like vanilla: two happy, fed seals make a pup that's born tame (they have to stand really close, see
+  How Things Behave).
 - **Pups grow up** like vanilla cubs. Prefer the cute baby seal? Give it a name and it stays a baby forever. Clear
   the name and it grows up again.
 - **Wild pups can be tamed** too: bring one home with the Abyssal Harpoon.
@@ -54,6 +55,8 @@ new creatures, items or effects.
   seal is about 4 m long, and 3 m is only three 1x1 floor tiles: lying nose to tail never works, and two 2x2 floor
   tiles (4 m) apart is already too far. Put them **side by side**, touching. Starred seals only look bigger: their
   real body is the same size, so put them just as close, even if they seem to overlap.
+- **Too many seals stop breeding:** with 5 or more seals and pups within about 10 m (wild ones count too), none of
+  them breed. That's the game's rule too. Split a big herd up.
 - With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. One catch: players **without**
   the mod can hurt tamed adult seals with any weapon (see Multiplayer).
 - Pups keep aging while you're away, as long as the world (or server) is running.
@@ -62,22 +65,24 @@ new creatures, items or effects.
 
 ## Multiplayer
 
-SealsAtHome makes changes to the game's own seals, instead of adding a separate mod-only seal that only players with
-the mod could see. That's why friends without the mod still see your pets and why uninstalling keeps them. The flip
-side: whatever the mod doesn't change stays vanilla for those players, like their weapons hurting tamed adult seals.
+SealsAtHome makes changes to the game's own seals instead of adding new mod-only ones, so friends without the mod still
+see your pets, and uninstalling keeps them. The flip side: in their game, seals work the way the unmodded game made
+them. A tamed seal stays tamed (green health bar, its name), but their game can't feed it, command it or make it breed.
 
 SealsAtHome only runs in players' games: dedicated servers don't need it and don't run it. Valheim lets one player's
-game run each creature at a time. When you're near seals, your game takes them over from friends without the mod (it
-can take up to half a minute after you arrive), so everything works: taming, feeding, follow / stay, names, breeding,
-pups growing up, and anyone with the mod can command them. That's how it's built and checked against the game's code,
-but it hasn't been fully tested with friends yet: please report how it goes.
+game control each creature at a time, usually whoever got there first. If that's a friend without the mod, your game
+takes the seals near you over, so everything works: taming, feeding, follow / stay, names, breeding, pups growing up,
+and anyone with the mod can command them. The first time that can take up to half a minute; after that it's at once.
+Friends who have the mod keep control of their seals. Tested in a few sessions with friends so far: please report how
+it goes.
 
-Only when nobody with the mod is around does a seal act like a vanilla seal for the moment: it doesn't eat, tame, breed
-or grow, and it wanders instead of following. Nothing is lost: it all picks up again when someone with the mod comes by.
+Only when nobody with the mod is near does a seal behave like the unmodded game's seal for the moment. It stays tamed,
+with its green health bar and name, but it doesn't eat, tame, breed or grow, and it wanders instead of following.
+Nothing is lost: it all picks up again when someone with the mod comes by.
 
 Players without the mod still see your tamed seals with green health bars, pet names, hearts and sounds. Their weapons
-can still hurt tamed adult seals (vanilla seals are "provokable" like the Dvergr; pups aren't). Best: everyone in your
-group has the mod, same version.
+can still hurt tamed adult seals: the game lets anyone attack adult seals, like the Dvergr (pups are safe). Best:
+everyone in your group has the mod, same version.
 
 ## Compatibility
 
@@ -91,10 +96,10 @@ group has the mod, same version.
 
 ## Uninstalling
 
-Nothing is stored in your characters. Tamed seals stay tamed in your world (green health bar, pet names, they don't
-run from players), but they stop following and wander where they are, so tell them to **stay** at home first. Without
-the mod they don't breed or grow up, and any weapon can hurt tamed adults again (a vanilla seal quirk). Reinstalling
-picks up where you left off.
+Nothing is stored in your characters. Tamed seals stay tamed in your world (green health bar, pet names, they don't run
+from players), but they stop following and wander where they are, so tell them to **stay** at home first. Without the
+mod they don't breed or grow up, and any weapon can hurt tamed adults again (the unmodded game lets anyone attack adult
+seals). Reinstalling picks up where you left off.
 
 ## Thanks
 
