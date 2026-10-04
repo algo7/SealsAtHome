@@ -49,10 +49,11 @@ new creatures, items or effects.
 - **Wild seals are afraid of fire:** near a campfire or hearth they get frightened and won't tame, so tame them away
   from fires. Tamed seals don't mind.
 - Taming only progresses while the seal is fed and not frightened (see its hover text).
-- **Breeding seals need to cuddle up:** the two have to be within 3 m of each other, counted from their middles.
-  That's the game's own breeding rule, the same as for boars, not something this mod made up. Seals are chunky, so
-  put them closer than looks necessary: 3 m is three 1x1 floor tiles, and two 2x2 floor tiles (4 m) is already too
-  far apart.
+- **Breeding seals need to cuddle up. Really close.** The two have to be within 3 m of each other, counted from
+  their middles. That's the game's own breeding rule, the same as for boars, not something this mod made up. But a
+  seal is about 4 m long, and 3 m is only three 1x1 floor tiles: lying nose to tail never works, and two 2x2 floor
+  tiles (4 m) apart is already too far. Put them **side by side**, touching. Starred seals only look bigger: their
+  real body is the same size, so put them just as close, even if they seem to overlap.
 - With PvP off, only the butcher knife hurts tamed seals, as with any tamed animal. One catch: players **without**
   the mod can hurt tamed adult seals with any weapon (see Multiplayer).
 - Pups keep aging while you're away, as long as the world (or server) is running.
