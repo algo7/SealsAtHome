@@ -111,6 +111,12 @@ namespace SealsAtHome
         /// <summary>Real seconds without a new heartbeat or runner before a runner counts as having no mod (TakeoverWatch).</summary>
         public const double StaleSeconds = 30;
 
+        /// <summary>
+        /// Real seconds a player found without the mod is taken from at once; then they're watched again, so a modded game
+        /// that froze for half a minute isn't taken from for the rest of the session (TakeoverWatch).
+        /// </summary>
+        public const double ForgetSeconds = 300;
+
         /// <summary>Wild seals run as soon as they notice you (~2 m).</summary>
         public static readonly FieldSetting[] WildSwitch =
         {

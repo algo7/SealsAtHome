@@ -21,8 +21,9 @@ namespace SealsAtHome
 
         private static readonly int s_tamedAtHash = SealSettings.TamedAtKey.GetStableHashCode();
         private static readonly int s_beatHash = SealSettings.BeatKey.GetStableHashCode();
-        /// <summary>Players this game found without the mod (peer ids, new on every connection).</summary>
-        private static readonly HashSet<long> s_noMod = new HashSet<long>();
+        /// <summary>Players this game found without the mod: peer id (new on every connection) → real time found.</summary>
+        private static readonly Dictionary<long, double> s_noMod = new Dictionary<long, double>();
+        private static readonly HashSet<long> s_logged = new HashSet<long>();
         private static bool s_errorLogged;
 
         private ZNetView m_nview;
@@ -103,6 +104,7 @@ namespace SealsAtHome
         /// <summary>Once per player found without the mod, by name when the player list has them.</summary>
         private static void LogTakeover(long owner)
         {
+            if (!s_logged.Add(owner)) return;
             var name = "a player";
             foreach (var player in ZNet.instance.GetPlayerList())
                 if (player.m_characterID.UserID == owner) name = player.m_name;

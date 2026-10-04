@@ -121,10 +121,11 @@ doesn't eat, tame, breed or grow, it wanders instead of following, and a `Comman
 So modded games take seals over from players without the mod. A modded game that runs a seal stamps a hidden
 heartbeat on it every 10 s (`SealsAtHome_Beat`, world time; vanilla ignores unknown keys). Every 2 s, `SealCare` on a
 seal this game doesn't own watches it: if neither the owner nor the heartbeat changes for 30 s of real time, the game
-running it doesn't have the mod (a modded owner stamps within 2 s of getting a seal, then every 10 s). Real time,
-because sleeping fast-forwards the world clock about 33 times. The seal is then claimed with `ZNetView.ClaimOwnership`
-(the call vanilla uses for containers, signs, fires and turrets), and that player is remembered for the session (peer
-ids are new on every connection), so their other seals are claimed at once. A seal whose heartbeat keeps changing is
+running it doesn't have the mod (a modded owner stamps every 10 s, so within about 12 s of getting a seal). Real
+time, because sleeping fast-forwards the world clock about 33 times. The seal is then claimed with
+`ZNetView.ClaimOwnership` (the call vanilla uses for containers, signs, fires and turrets), and that player is
+remembered for 5 minutes (by peer id, new on every connection), so their other seals are claimed at once; after that
+they're watched again, so a modded game that froze for half a minute isn't taken from for the whole session. A seal whose heartbeat keeps changing is
 never claimed: modded players don't take seals from each other, not even while sleeping. The claim sticks:
 `ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. If the previous owner's game sends one
 more update before it learns of the claim, that newer data wins and the server hands the seal back; the next check

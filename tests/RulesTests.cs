@@ -72,7 +72,7 @@ internal static partial class Tests
     private static readonly long Second = TimeSpan.TicksPerSecond;
 
     /// <summary>Ticks every 2 s (real time) from <paramref name="from"/> to <paramref name="to"/> on one seal; true if a tick claims it.</summary>
-    private static bool ClaimsBetween(TakeoverWatch watch, ISet<long> noMod, double from, double to, Func<double, (long owner, long beat)> seal)
+    private static bool ClaimsBetween(TakeoverWatch watch, IDictionary<long, double> noMod, double from, double to, Func<double, (long owner, long beat)> seal)
     {
         for (var t = from; t <= to; t += 2)
         {
@@ -84,7 +84,7 @@ internal static partial class Tests
 
     private static void Test_Takeover_NeverFromAGameThatStamps()
     {
-        var noMod = new HashSet<long>();
+        var noMod = new Dictionary<long, double>();
         False(ClaimsBetween(new TakeoverWatch(), noMod, 0, 120, t => (Friend, 1 + (long)(t / 11))), "a modded runner stamps every 10-12 s: never taken");
         Eq(0, noMod.Count, "nobody mistaken for a game without the mod");
     }
@@ -92,43 +92,43 @@ internal static partial class Tests
     private static void Test_Takeover_NeverDuringASleepFastForward()
     {
         // Sleeping fast-forwards world time ~33x for 12 s: by the world clock every stamp looks old, but it changes every tick.
-        False(ClaimsBetween(new TakeoverWatch(), new HashSet<long>(), 0, 60, t => (Friend, 1000 + (long)t)), "stamps every tick: never taken");
+        False(ClaimsBetween(new TakeoverWatch(), new Dictionary<long, double>(), 0, 60, t => (Friend, 1000 + (long)t)), "stamps every tick: never taken");
     }
 
     private static void Test_Takeover_FromAGameThatNeverStampsAfter30Seconds()
     {
-        var noMod = new HashSet<long>();
+        var noMod = new Dictionary<long, double>();
         var watch = new TakeoverWatch();
         Eq(TakeoverWatch.Step.Wait, watch.Decide(false, Friend, 5, 100, noMod), "first sight");
         Eq(TakeoverWatch.Step.Wait, watch.Decide(false, Friend, 5, 129.9, noMod), "unchanged for 29.9 s");
         Eq(TakeoverWatch.Step.FoundNoMod, watch.Decide(false, Friend, 5, 130.1, noMod), "unchanged for 30.1 s: their game doesn't run the mod");
-        True(noMod.Contains(Friend), "remembered");
+        True(noMod.ContainsKey(Friend), "remembered");
     }
 
     private static void Test_Takeover_RemembersAGameWithoutTheMod()
     {
-        var noMod = new HashSet<long> { Friend };
+        var noMod = new Dictionary<long, double> { [Friend] = 100 };
         Eq(TakeoverWatch.Step.Claim, new TakeoverWatch().Decide(false, Friend, 5, 100, noMod), "another seal they run: taken at once");
         var watch = new TakeoverWatch();
         Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 0, 100, noMod), "taken at once");
         Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 0, 102, noMod), "our takeover was undone: retried at the next tick");
         Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 77, 104, noMod), "undone with our own stamp left on it: still retried");
-        True(noMod.Contains(Friend), "our own stamp isn't taken as theirs");
+        True(noMod.ContainsKey(Friend), "our own stamp isn't taken as theirs");
     }
 
     private static void Test_Takeover_ANewRunnerGetsTheFull30Seconds()
     {
-        var noMod = new HashSet<long>();
+        var noMod = new Dictionary<long, double>();
         var watch = new TakeoverWatch();
         False(ClaimsBetween(watch, noMod, 0, 24, t => (Friend, 5)), "a game without the mod, watched 24 s");
         // Handed to Other, still loading the area: its first stamp comes 8 s later.
         False(ClaimsBetween(watch, noMod, 26, 80, t => (Other, t < 34 ? 5 : 6 + (long)((t - 34) / 10))), "a new runner that stamps is never taken");
-        False(noMod.Contains(Other), "not mistaken for a game without the mod");
+        False(noMod.ContainsKey(Other), "not mistaken for a game without the mod");
     }
 
     private static void Test_Takeover_ANewRunnerThatNeverStampsAfter30Seconds()
     {
-        var noMod = new HashSet<long>();
+        var noMod = new Dictionary<long, double>();
         var watch = new TakeoverWatch();
         False(ClaimsBetween(watch, noMod, 0, 24, t => (Friend, 5)), "watched 24 s");
         False(ClaimsBetween(watch, noMod, 26, 56, t => (Other, 5)), "handed over at 26 s: 30 s from then");
@@ -137,15 +137,44 @@ internal static partial class Tests
 
     private static void Test_Takeover_NotWhenUnownedOrOurs()
     {
-        var noMod = new HashSet<long> { Friend };
+        var noMod = new Dictionary<long, double> { [Friend] = 100 };
         Eq(TakeoverWatch.Step.Wait, new TakeoverWatch().Decide(false, 0, 0, 100, noMod), "no owner yet: vanilla hands it out");
         Eq(TakeoverWatch.Step.Wait, new TakeoverWatch().Decide(true, Me, 0, 100, noMod), "already ours");
         // While ours it forgets: losing the seal to a runner that never stamps waits a full 30 s from then.
-        var fresh = new HashSet<long>();
+        var fresh = new Dictionary<long, double>();
         var watch = new TakeoverWatch();
         False(ClaimsBetween(watch, fresh, 0, 20, t => (Other, 5)), "watching");
         Eq(TakeoverWatch.Step.Wait, watch.Decide(true, Me, 5, 22, fresh), "ours for a moment");
         False(ClaimsBetween(watch, fresh, 24, 54, t => (Other, 5)), "lost again at 24 s: 30 s from then");
+    }
+
+    private static void Test_Takeover_RemembersPerPlayer()
+    {
+        var noMod = new Dictionary<long, double> { [Friend] = 100 };
+        var watch = new TakeoverWatch();
+        False(ClaimsBetween(watch, noMod, 100, 130, t => (Other, 5)), "someone else's seal still waits 30 s");
+        Eq(TakeoverWatch.Step.FoundNoMod, watch.Decide(false, Other, 5, 130.1, noMod), "then found without the mod too");
+    }
+
+    private static void Test_Takeover_NoOwnerResetsTheWatch()
+    {
+        var noMod = new Dictionary<long, double>();
+        var watch = new TakeoverWatch();
+        False(ClaimsBetween(watch, noMod, 0, 20, t => (Other, 5)), "watching");
+        Eq(TakeoverWatch.Step.Wait, watch.Decide(false, 0, 5, 22, noMod), "released for a moment");
+        False(ClaimsBetween(watch, noMod, 24, 54, t => (Other, 5)), "handed back at 24 s: 30 s from then");
+    }
+
+    private static void Test_Takeover_ForgetsAfterFiveMinutes()
+    {
+        // A modded game that froze for half a minute isn't taken from for the rest of the session.
+        var noMod = new Dictionary<long, double> { [Friend] = 100 };
+        var watch = new TakeoverWatch();
+        Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 5, 399.9, noMod), "found 4:59.9 ago: still taken at once");
+        Eq(TakeoverWatch.Step.Wait, watch.Decide(false, Friend, 5, 400.1, noMod), "found over 5 min ago: watched again");
+        False(noMod.ContainsKey(Friend), "forgotten");
+        False(ClaimsBetween(watch, noMod, 402, 430, t => (Friend, 5)), "watched for 30 s again");
+        Eq(TakeoverWatch.Step.FoundNoMod, watch.Decide(false, Friend, 5, 430.2, noMod), "still not stamping: found again");
     }
 
     private static void Test_Takeover_OwnerRestampsABeatFromTheFuture()

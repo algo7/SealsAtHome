@@ -56,10 +56,11 @@ namespace SealsAtHome
 
     /// <summary>
     /// One seal, on a game that doesn't run it: whether to take it over. A runner is found to have no mod when this game
-    /// sees neither the runner nor the heartbeat change for StaleSeconds of real time (a modded runner stamps within 2 s
-    /// of getting a seal, then every 10 s; the world clock can't be used: sleeping fast-forwards it ~33x). Players found
-    /// so (noMod, peer ids, which are new on every connection) are taken from at once on every seal, which also redoes a
-    /// takeover the game undid (a runner still sending the seal's movement overwrites it). Unity-free.
+    /// sees neither the runner nor the heartbeat change for StaleSeconds of real time (a modded runner stamps every 10 s,
+    /// so within about 12 s of getting a seal; the world clock can't be used: sleeping fast-forwards it ~33x). Players
+    /// found so (noMod: peer id, new on every connection → real time found) are taken from at once on every seal for
+    /// ForgetSeconds, which also redoes a takeover the game undid (a runner still sending the seal's movement overwrites
+    /// it); then they're watched again. Unity-free.
     /// </summary>
     internal sealed class TakeoverWatch
     {
@@ -79,14 +80,18 @@ namespace SealsAtHome
         /// <param name="owner">The seal's owner (peer id); 0 = none yet.</param>
         /// <param name="beat">The seal's heartbeat as last seen; its value only matters when it changes.</param>
         /// <param name="nowSeconds">Real time (seconds).</param>
-        public Step Decide(bool isOwner, long owner, long beat, double nowSeconds, ISet<long> noMod)
+        public Step Decide(bool isOwner, long owner, long beat, double nowSeconds, IDictionary<long, double> noMod)
         {
             if (isOwner || owner == 0)
             {
                 m_watching = false;
                 return Step.Wait;
             }
-            if (noMod.Contains(owner)) return Step.Claim;
+            if (noMod.TryGetValue(owner, out var found))
+            {
+                if (nowSeconds - found <= SealSettings.ForgetSeconds) return Step.Claim;
+                noMod.Remove(owner);
+            }
             if (!m_watching || owner != m_owner || beat != m_beat)
             {
                 m_watching = true;
@@ -96,7 +101,7 @@ namespace SealsAtHome
                 return Step.Wait;
             }
             if (nowSeconds - m_since <= SealSettings.StaleSeconds) return Step.Wait;
-            noMod.Add(owner);
+            noMod[owner] = nowSeconds;
             return Step.FoundNoMod;
         }
     }
