@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SealsAtHome;
 
 internal static partial class Tests
@@ -67,31 +68,89 @@ internal static partial class Tests
         False(NameCopy.ShouldWrite("<color=red>Bob</color>", "Bob"), "already shown without its tags");
     }
 
-    private const long Me = 111, Friend = 222;
+    private const long Me = 111, Friend = 222, Other = 333;
     private static readonly long Second = TimeSpan.TicksPerSecond;
 
-    private static void Test_Takeover_ClaimsSealsWhoseRunnerHasNoMod()
+    /// <summary>Ticks every 2 s (real time) from <paramref name="from"/> to <paramref name="to"/> on one seal; true if a tick claims it.</summary>
+    private static bool ClaimsBetween(TakeoverWatch watch, ISet<long> noMod, double from, double to, Func<double, (long owner, long beat)> seal)
     {
-        True(Takeover.ShouldClaim(false, Friend, 0, Now), "never beaten: a game without the mod runs it");
-        True(Takeover.ShouldClaim(false, Friend, Now - 31 * Second, Now), "beat stopped over 30 s ago: runner has no mod now");
+        for (var t = from; t <= to; t += 2)
+        {
+            var (owner, beat) = seal(t);
+            if (watch.Decide(false, owner, beat, t, noMod) != TakeoverWatch.Step.Wait) return true;
+        }
+        return false;
     }
 
-    private static void Test_Takeover_NeverFromARunnerWithTheMod()
+    private static void Test_Takeover_NeverFromAGameThatStamps()
     {
-        False(Takeover.ShouldClaim(false, Friend, Now - 5 * Second, Now), "fresh beat: a modded game runs it, no ping-pong");
-        False(Takeover.ShouldClaim(false, Friend, Now - 30 * Second, Now), "up to 30 s (3 missed beats) still counts as modded");
+        var noMod = new HashSet<long>();
+        False(ClaimsBetween(new TakeoverWatch(), noMod, 0, 120, t => (Friend, 1 + (long)(t / 11))), "a modded runner stamps every 10-12 s: never taken");
+        Eq(0, noMod.Count, "nobody mistaken for a game without the mod");
+    }
+
+    private static void Test_Takeover_NeverDuringASleepFastForward()
+    {
+        // Sleeping fast-forwards world time ~33x for 12 s: by the world clock every stamp looks old, but it changes every tick.
+        False(ClaimsBetween(new TakeoverWatch(), new HashSet<long>(), 0, 60, t => (Friend, 1000 + (long)t)), "stamps every tick: never taken");
+    }
+
+    private static void Test_Takeover_FromAGameThatNeverStampsAfter30Seconds()
+    {
+        var noMod = new HashSet<long>();
+        var watch = new TakeoverWatch();
+        Eq(TakeoverWatch.Step.Wait, watch.Decide(false, Friend, 5, 100, noMod), "first sight");
+        Eq(TakeoverWatch.Step.Wait, watch.Decide(false, Friend, 5, 129.9, noMod), "unchanged for 29.9 s");
+        Eq(TakeoverWatch.Step.FoundNoMod, watch.Decide(false, Friend, 5, 130.1, noMod), "unchanged for 30.1 s: their game doesn't run the mod");
+        True(noMod.Contains(Friend), "remembered");
+    }
+
+    private static void Test_Takeover_RemembersAGameWithoutTheMod()
+    {
+        var noMod = new HashSet<long> { Friend };
+        Eq(TakeoverWatch.Step.Claim, new TakeoverWatch().Decide(false, Friend, 5, 100, noMod), "another seal they run: taken at once");
+        var watch = new TakeoverWatch();
+        Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 0, 100, noMod), "taken at once");
+        Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 0, 102, noMod), "our takeover was undone: retried at the next tick");
+        Eq(TakeoverWatch.Step.Claim, watch.Decide(false, Friend, 77, 104, noMod), "undone with our own stamp left on it: still retried");
+        True(noMod.Contains(Friend), "our own stamp isn't taken as theirs");
+    }
+
+    private static void Test_Takeover_ANewRunnerGetsTheFull30Seconds()
+    {
+        var noMod = new HashSet<long>();
+        var watch = new TakeoverWatch();
+        False(ClaimsBetween(watch, noMod, 0, 24, t => (Friend, 5)), "a game without the mod, watched 24 s");
+        // Handed to Other, still loading the area: its first stamp comes 8 s later.
+        False(ClaimsBetween(watch, noMod, 26, 80, t => (Other, t < 34 ? 5 : 6 + (long)((t - 34) / 10))), "a new runner that stamps is never taken");
+        False(noMod.Contains(Other), "not mistaken for a game without the mod");
+    }
+
+    private static void Test_Takeover_ANewRunnerThatNeverStampsAfter30Seconds()
+    {
+        var noMod = new HashSet<long>();
+        var watch = new TakeoverWatch();
+        False(ClaimsBetween(watch, noMod, 0, 24, t => (Friend, 5)), "watched 24 s");
+        False(ClaimsBetween(watch, noMod, 26, 56, t => (Other, 5)), "handed over at 26 s: 30 s from then");
+        Eq(TakeoverWatch.Step.FoundNoMod, watch.Decide(false, Other, 5, 56.1, noMod), "30.1 s after the handover");
     }
 
     private static void Test_Takeover_NotWhenUnownedOrOurs()
     {
-        False(Takeover.ShouldClaim(false, 0, 0, Now), "no owner yet: vanilla hands it out");
-        False(Takeover.ShouldClaim(true, Me, 0, Now), "already ours");
+        var noMod = new HashSet<long> { Friend };
+        Eq(TakeoverWatch.Step.Wait, new TakeoverWatch().Decide(false, 0, 0, 100, noMod), "no owner yet: vanilla hands it out");
+        Eq(TakeoverWatch.Step.Wait, new TakeoverWatch().Decide(true, Me, 0, 100, noMod), "already ours");
+        // While ours it forgets: losing the seal to a runner that never stamps waits a full 30 s from then.
+        var fresh = new HashSet<long>();
+        var watch = new TakeoverWatch();
+        False(ClaimsBetween(watch, fresh, 0, 20, t => (Other, 5)), "watching");
+        Eq(TakeoverWatch.Step.Wait, watch.Decide(true, Me, 5, 22, fresh), "ours for a moment");
+        False(ClaimsBetween(watch, fresh, 24, 54, t => (Other, 5)), "lost again at 24 s: 30 s from then");
     }
 
-    private static void Test_Takeover_ClockWentBackCountsAsStale()
+    private static void Test_Takeover_OwnerRestampsABeatFromTheFuture()
     {
-        True(Takeover.ShouldClaim(false, Friend, Now + 60 * Second, Now), "beat in the future: never trust it forever");
-        True(Takeover.ShouldBeat(Now + 60 * Second, Now), "owner re-stamps a beat from the future");
+        True(Takeover.ShouldBeat(Now + 60 * Second, Now), "the world clock went back: re-stamp, never stuck");
     }
 
     private static void Test_Takeover_OwnerBeatsEvery10Seconds()

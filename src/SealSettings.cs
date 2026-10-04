@@ -105,9 +105,10 @@ namespace SealsAtHome
         /// <summary>Hidden ZDO key: world time (ticks) of the last heartbeat from a modded game running the seal (see Takeover).</summary>
         public const string BeatKey = "SealsAtHome_Beat";
 
-        /// <summary>A modded owner stamps the heartbeat this often; older than StaleSeconds, others take the seal over.</summary>
+        /// <summary>A modded owner stamps the heartbeat this often (world time).</summary>
         public const double BeatSeconds = 10;
 
+        /// <summary>Real seconds without a new heartbeat or runner before a runner counts as having no mod (TakeoverWatch).</summary>
         public const double StaleSeconds = 30;
 
         /// <summary>Wild seals run as soon as they notice you (~2 m).</summary>

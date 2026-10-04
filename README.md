@@ -120,13 +120,17 @@ doesn't eat, tame, breed or grow, it wanders instead of following, and a `Comman
 
 So modded games take seals over from players without the mod. A modded game that runs a seal stamps a hidden
 heartbeat on it every 10 s (`SealsAtHome_Beat`, world time; vanilla ignores unknown keys). Every 2 s, `SealCare` on a
-seal this game doesn't own checks it: no heartbeat for over 30 s means the game running it doesn't have the mod, so the
-seal is claimed with `ZNetView.ClaimOwnership` (the call vanilla uses for containers, signs, fires and turrets). It
-never claims a seal with a fresh heartbeat (no ping-pong between modded players), and the claim sticks:
-`ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. The heartbeat is on the seal itself, so
-this works wherever the other player is. The decision is a unit-tested rule (`Takeover`). If the previous owner's game
-sends one more update before it learns of the claim, the server can briefly hand the seal back; the next check (2 s
-later) claims it again. Checked against the game code; not yet tested in a multiplayer session.
+seal this game doesn't own watches it: if neither the owner nor the heartbeat changes for 30 s of real time, the game
+running it doesn't have the mod (a modded owner stamps within 2 s of getting a seal, then every 10 s). Real time,
+because sleeping fast-forwards the world clock about 33 times. The seal is then claimed with `ZNetView.ClaimOwnership`
+(the call vanilla uses for containers, signs, fires and turrets), and that player is remembered for the session (peer
+ids are new on every connection), so their other seals are claimed at once. A seal whose heartbeat keeps changing is
+never claimed: modded players don't take seals from each other, not even while sleeping. The claim sticks:
+`ReleaseNearbyZDOS` doesn't hand the seal back while its new owner is around. If the previous owner's game sends one
+more update before it learns of the claim, that newer data wins and the server hands the seal back; the next check
+(2 s later) claims it again. The heartbeat is on the seal itself, so this works wherever the other player is. The
+decision is a unit-tested rule (`TakeoverWatch`), checked against the game code; this version hasn't been tested in a
+multiplayer session yet.
 
 Seals act vanilla only while no player with the mod is near them. Nothing is lost: all state lives in the ZDO (tamed
 flag, follow target, name, love points, tamed-at time), and `Tameable.UpdateSavedFollowTarget` picks the saved follow

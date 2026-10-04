@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+- Multiplayer: games with the mod no longer take seals from each other (it happened now and then, for example while
+  sleeping or right after the host arrived).
+- Seals run by a friend without the mod are still taken over: the first time within half a minute, then at once.
+
 ## 1.0.1
 
 Documentation only, the mod itself is unchanged: new tips on the mod page (fire, starred pups) and how it works for
