@@ -42,7 +42,7 @@ new creatures, items or effects.
 ![A tamed pup named "Ultra Cute", with the Pet and Rename prompts](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/named-pup.jpg)
 *Give a pup a name and it stays a baby forever.*
 
-![A stone seal pen at night, its iron gate under a "Seals @ Home" sign](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/seal-pen.jpg)
+![An ice-block seal pen with an iron gate under a "Seals @ Home" sign](https://raw.githubusercontent.com/algo7/SealsAtHome/main/images/seal-pen.jpg)
 *Welcome to Seals @ Home.*
 
 ## How Things Behave
