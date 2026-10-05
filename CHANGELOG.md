@@ -6,7 +6,6 @@ Documentation only, the mod itself is unchanged. On the mod page:
 
 - New: why players without the mod can hurt your tamed adult seals (the game counts adult seals as
   provokable, like the Dvergr).
-- Removed the tip to bring wild pups home with the Abyssal Harpoon: a tamed pup follows you home.
 - Clearer wording in the breeding tip and the Multiplayer section.
 
 ## 1.0.2
