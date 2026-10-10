@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+- Added Hexium release workflows.
+
 ## 1.0.3
 
 Documentation only, the mod itself is unchanged. On the mod page:
