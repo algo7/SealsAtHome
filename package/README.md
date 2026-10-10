@@ -122,6 +122,6 @@ still see your pets.
 - Available on [Thunderstore](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/) and
   [Hexium](https://valheim.hexium.gg/mods/Algo7/SealsAtHome)
 - Source and bug reports: https://github.com/algo7/SealsAtHome (issues welcome)
-- Changes: the Changelog tab
+- Changes: see the changelog
 - Made with AI assistance.
 - Built with [BepInEx](https://github.com/BepInEx/BepInEx). MIT license.
