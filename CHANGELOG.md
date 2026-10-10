@@ -3,6 +3,7 @@
 ## 1.0.4
 
 - Added Hexium release workflows.
+- First release on Hexium. Earlier versions are only on [Thunderstore](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/versions/).
 
 ## 1.0.3
 
