@@ -14,7 +14,8 @@ r2modman, Thunderstore Mod Manager or Gale) or [on Hexium](https://valheim.hexiu
 it with Gale).
 
 What it does for players is in [package/README.md](package/README.md), which is also the mod's
-[Thunderstore page](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/).
+[Thunderstore](https://thunderstore.io/c/valheim/p/Algo7/SealsAtHome/) and
+[Hexium](https://valheim.hexium.gg/mods/Algo7/SealsAtHome) page.
 Changes: [CHANGELOG.md](CHANGELOG.md).
 
 Made with AI assistance.
@@ -163,7 +164,8 @@ The Makefile looks for the SDK in `~/.dotnet`; pass `DOTNET=dotnet` if it's on y
 - **Release** (`.github/workflows/release.yml`): the version comes from the git tag
   ([MinVer](https://github.com/adamralph/minver)); nothing else holds a version number. To release:
   1. add a `## X.Y.Z` section with the release notes to [CHANGELOG.md](CHANGELOG.md), **above the previous release's
-     `##` section** (the whole file is shown as the Thunderstore Changelog tab, newest first), and push it;
+     `##` section** (the whole file is shown as the Thunderstore Changelog tab and on Hexium's versions page, newest
+     first), and push it;
   2. tag the commit that has those notes: `git tag vX.Y.Z && git push origin vX.Y.Z` (the release stops if the tagged
      commit has no `## X.Y.Z` section);
   3. approve the run in the `release` environment: it creates the GitHub Release, then publishes the same zip to
@@ -176,10 +178,11 @@ The Makefile looks for the SDK in `~/.dotnet`; pass `DOTNET=dotnet` if it's on y
 ```
 SealsAtHome.csproj         net48 plugin; Package target (zip + generated manifest)
 src/                       plugin: scene hook, prefab rebuild, settings tables, rules, SealCare component
-package/                   Thunderstore README and icon (icon.svg is its source)
+package/                   mod page (Thunderstore and Hexium) and icon (icon.svg is its source)
 images/                    screenshots and the header picture for the READMEs (not in the zip)
 tests/                     unit tests (net8.0)
 thunderstore.toml          Thunderstore publishing settings (tcli)
+hexium.toml                Hexium publishing settings (tcli)
 .github/                   workflows, Dependabot, the CI helper that fetches the game DLLs
 ```
 
