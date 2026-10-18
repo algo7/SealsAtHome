@@ -147,7 +147,7 @@ Needs the .NET SDK 8 and Valheim's game DLLs for compile-time references: by def
 (`~/.local/share/Steam/steamapps/common/Valheim`). BepInEx comes from NuGet (`nuget.config` adds the BepInEx feed).
 
 ```sh
-make test       # unit tests (no game needed at runtime, only its DLLs as references)
+make test       # builds the plugin, then the unit tests and the hook check (no game needed at runtime, only its DLLs)
 make package    # → Algo7-SealsAtHome-<version>.zip (manifest.json is generated from SealsAtHome.csproj)
 make test MANAGED_DIR=/path/to/Valheim/valheim_Data/Managed    # game DLLs from elsewhere
 ```
@@ -157,10 +157,16 @@ The Makefile looks for the SDK in `~/.dotnet`; pass `DOTNET=dotnet` if it's on y
 
 ## CI / CD
 
-- **CI** (`.github/workflows/ci.yml`, every push and pull request): build, unit tests and the zip as an artifact. The
-  game DLLs come from Valheim's free dedicated server (Steam app 896660, anonymous login): only its `Managed` DLLs,
-  fetched with [DepotDownloader](https://github.com/SteamRE/DepotDownloader) (pinned, checksum-verified); nothing from
-  the game is committed.
+- **CI** (`.github/workflows/ci.yml`, every push and pull request): build, unit tests, the hook check and the zip as an
+  artifact (`package-zip`). The game DLLs come from Valheim's free dedicated server (Steam app 896660, anonymous login):
+  only its `Managed` DLLs, fetched with [DepotDownloader](https://github.com/SteamRE/DepotDownloader) (pinned,
+  checksum-verified); nothing from the game is committed. The run summary names the server build it tested.
+- **Daily check** (`.github/workflows/daily.yml`, 06:00 UTC, or "Run workflow" in Actions): the same CI against the
+  latest server, so a game update that breaks a hook turns it red within a day. GitHub switches it off after 60 days
+  without repository activity; turn it back on under Actions → Daily check.
+- **Hook check** (`tests/HookCheck.cs`): reads the built DLL and the game DLLs with Mono.Cecil and fails when a Harmony
+  hook's target or parameters, or a member the code looks up by name, no longer match the game, or a target became small
+  enough to be inlined.
 - **Release** (`.github/workflows/release.yml`): the version comes from the git tag
   ([MinVer](https://github.com/adamralph/minver)); nothing else holds a version number. To release:
   1. add a `## X.Y.Z` section with the release notes to [CHANGELOG.md](CHANGELOG.md), **above the previous release's
@@ -180,7 +186,7 @@ SealsAtHome.csproj         net48 plugin; Package target (zip + generated manifes
 src/                       plugin: scene hook, prefab rebuild, settings tables, rules, SealCare component
 package/                   mod page (Thunderstore and Hexium) and icon (icon.svg is its source)
 images/                    screenshots and the header picture for the READMEs (not in the zip)
-tests/                     unit tests (net8.0)
+tests/                     unit tests and the hook check (net8.0)
 thunderstore.toml          Thunderstore publishing settings (tcli)
 hexium.toml                Hexium publishing settings (tcli)
 .github/                   workflows, Dependabot, the CI helper that fetches the game DLLs
